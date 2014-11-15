@@ -1,20 +1,39 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="FlymeTheme" parent="@android:style/Theme.DeviceDefault.Light">
+
+<!--  
+<item name="android:windowBackground">@color/main_blue</item>
+ -->
+
+        <item name="android:actionBarStyle">@style/FlymeActionBarStyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/FlymeActionButtonOverflowStyle</item>
+        <item name="android:actionButtonStyle">@style/FlymeActionButtonStyle</item>
+        
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <!-- overflow图标 -->
+    <style name="FlymeActionButtonOverflowStyle" parent="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/mz_ic_sb_more</item>
+    </style>
+
+    <!-- back键图标 通过style定制back方法只在flyme4.0系统有效 -->
+    <style name="FlymeActionButtonStyle" parent="@android:style/Widget.DeviceDefault.Light.ActionButton">
+        <item name="android:src">@drawable/mz_ic_sb_back</item>
+    </style>
+
+    <!-- smartbar及actionbar顶栏背景 -->
+    <style name="FlymeActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@drawable/action_bar_bg</item>
+        <item name="android:backgroundSplit">@drawable/mz_smartbar_background</item>
+         <item name="android:titleTextStyle">@style/FlymeTitleTextStyle</item>
+    	
+    </style>
+    <style name="FlymeTitleTextStyle" parent="@android:style/TextAppearance.DeviceDefault.Inverse">
+        
     </style>
 
 </resources>
