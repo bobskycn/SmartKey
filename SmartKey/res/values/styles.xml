@@ -33,7 +33,7 @@
     	
     </style>
     <style name="FlymeTitleTextStyle" parent="@android:style/TextAppearance.DeviceDefault.Inverse">
-        
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

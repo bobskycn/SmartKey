@@ -1,0 +1,20 @@
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:packageNames ="cn.bobsky.smartkey"
+    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityFeedbackType="feedbackSpoken"
+    android:accessibilityFlags="flagDefault"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_service_description"
+    android:notificationTimeout="100"
+    android:settingsActivity="cn.bobsky.smartkey.MainActivity" />
+<!--
+1：android:description：系统设置，辅助功能服务，智能按键服务的简要说明
+2:android:packageNames
+ 	 包名——指定你想要处理的辅助性服务的应用程序的包名。如果省略该参数,你的辅助性服务被认为是对于任何应用程序的辅助性的事件提供服务。
+ 	 这个参数可以在辅助性性服务配置文件中，android:packageNames属性来设置，
+  	这个属性用逗号分隔多个包名,或者使用AccessibilityServiceInfo.packageNames 设置。3：android:accessibilityEventTypes
+ 	事件类型——指定你想要你的服务来处理的辅助性活动的类型。这个参数可以设置在辅助性服务配置文件中，
+ 	使用android:accessibilityEventTypes属性，
+ 	用|分隔的字符(例如accessibilityEventTypes = " typeViewClicked | typeViewFocused”),
+ 	或使用AccessibilityServiceInfo.eventTypes 设置。
+-->

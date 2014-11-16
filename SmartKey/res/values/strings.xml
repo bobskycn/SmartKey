@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">智能按键</string>
+    <string name="accessibility_service_label">智能按键</string>
+    <string name="accessibility_service_description">重要提示：\n\t为了保证【智能按键】正常运行，请启动这项服务。\n\n启动位置：\n\t点击标题栏右边上的开关，使其处于“打开”状态</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 

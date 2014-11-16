@@ -1,5 +1,8 @@
 package cn.bobsky.smartkey;
 
+import cn.bobsky.smartkey.service.FloatkeyService;
+import cn.bobsky.smartkey.service.MyAS;
+import cn.bobsky.smartkey.service.SmartKeyService;
 import cn.bobsky.smartkey.utils.SmartBarUtils;
 
 import android.app.Activity;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.os.Build;
 
@@ -31,15 +35,24 @@ public class MainActivity extends Activity {
 		bar.setDisplayUseLogoEnabled(false);
 		bar.setHomeButtonEnabled(true);
 		
+		 Intent intent = new Intent(MainActivity.this, SmartKeyService.class);  
+         startService(intent); 
+		
 		Button startFloatWindow = (Button) findViewById(R.id.start_float_window);  
-        startFloatWindow.setOnClickListener(new OnClickListener() {  
+		Button button1 = (Button) findViewById(R.id.button1); 
+		
+		startFloatWindow.setOnClickListener(new OnClickListener() {  
             @Override  
             public void onClick(View arg0) {  
-                Intent intent = new Intent(MainActivity.this, FloatWindowService.class);  
-                startService(intent);  
-                finish();  
+            	arg0.announceForAccessibility("back");
             }  
-        });  
+        });
+		button1.setOnClickListener(new OnClickListener() {  
+            @Override  
+            public void onClick(View arg0) {  
+            	arg0.announceForAccessibility("home");
+            }  
+        });
 
 //		if (savedInstanceState == null) {
 //			getFragmentManager().beginTransaction()
@@ -64,22 +77,5 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
 	}
 }
