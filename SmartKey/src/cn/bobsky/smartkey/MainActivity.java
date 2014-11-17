@@ -1,24 +1,17 @@
 package cn.bobsky.smartkey;
 
-import cn.bobsky.smartkey.service.FloatkeyService;
-import cn.bobsky.smartkey.service.MyAS;
-import cn.bobsky.smartkey.service.SmartKeyService;
+import cn.bobsky.smartkey.service.KeyWindowService;
 import cn.bobsky.smartkey.utils.SmartBarUtils;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
-import android.os.Build;
 
 public class MainActivity extends Activity {
 
@@ -35,7 +28,7 @@ public class MainActivity extends Activity {
 		bar.setDisplayUseLogoEnabled(false);
 		bar.setHomeButtonEnabled(true);
 		
-		 Intent intent = new Intent(MainActivity.this, SmartKeyService.class);  
+		 Intent intent = new Intent(MainActivity.this, KeyWindowService.class);  
          startService(intent); 
 		
 		Button startFloatWindow = (Button) findViewById(R.id.start_float_window);  
