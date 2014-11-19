@@ -26,7 +26,7 @@
     </style>
 
     <!-- smartbar及actionbar顶栏背景 -->
-    <style name="FlymeActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <style name="FlymeActionBarStyle" parent="@android:style/Widget.DeviceDefault.Light.ActionBar">
         <item name="android:background">@drawable/action_bar_bg</item>
         <item name="android:backgroundSplit">@drawable/mz_smartbar_background</item>
          <item name="android:titleTextStyle">@style/FlymeTitleTextStyle</item>

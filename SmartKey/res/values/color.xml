@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="grey">#87CEFA</color>
     <color name="light_blue">#63B8FF</color>
     <color name="transparent">#00ffffff</color>
     <color name="main_blue">#36b9ea</color>
-    <color name="white">#ffffff</color>
+    <color name="bright_blue">#11b2fa</color>
+
+     <color name="black">#000000</color>
+    <item name="color_transparent" type="color">#00000000</item>
+    <item name="white" type="color">#ffffff</item>
+    <item name="white_transparent" type="color">#99ffffff</item>
+    <item name="white_transparent_more" type="color">#22ffffff</item>
+    <item name="corlor_action_bar" type="color">#fe547b</item>
+    <item name="corlor_action_bar_tansparent" type="color">#99fe547b</item>
+    <item name="color_bg_fragment" type="color">#eeeff3</item>
+    <item name="color_border_fragment" type="color">#bfbfbf</item>
+	<item name="color_border_item" type="color">#55bfbfbf</item>
 </resources>

@@ -1,5 +1,6 @@
 package cn.bobsky.smartkey;
 
+import cn.bobsky.smartkey.fragment.FragmentMain;
 import cn.bobsky.smartkey.service.KeyWindowService;
 import cn.bobsky.smartkey.utils.SmartBarUtils;
 
@@ -24,28 +25,17 @@ public class MainActivity extends Activity {
 		ActionBar bar = getActionBar();
 		SmartBarUtils.setBackIcon(bar,
 				getResources().getDrawable(R.drawable.mz_ic_sb_back));
-		bar.setHomeButtonEnabled(false);
-		bar.setDisplayUseLogoEnabled(false);
-		bar.setHomeButtonEnabled(true);
+//		bar.setHomeButtonEnabled(false);
+//		bar.setDisplayUseLogoEnabled(false);
+//		bar.setHomeButtonEnabled(true);
 		
 		 Intent intent = new Intent(MainActivity.this, KeyWindowService.class);  
          startService(intent); 
-		
-		Button startFloatWindow = (Button) findViewById(R.id.start_float_window);  
-		Button button1 = (Button) findViewById(R.id.button1); 
-		
-		startFloatWindow.setOnClickListener(new OnClickListener() {  
-            @Override  
-            public void onClick(View arg0) {  
-            	arg0.announceForAccessibility("back");
-            }  
-        });
-		button1.setOnClickListener(new OnClickListener() {  
-            @Override  
-            public void onClick(View arg0) {  
-            	arg0.announceForAccessibility("home");
-            }  
-        });
+         if (savedInstanceState == null) {
+             getFragmentManager().beginTransaction()
+                     .add(R.id.container, new FragmentMain())
+                     .commit();
+         }
 
 //		if (savedInstanceState == null) {
 //			getFragmentManager().beginTransaction()

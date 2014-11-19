@@ -4,12 +4,10 @@ import java.lang.reflect.Field;
 import java.util.Calendar;
 
 import cn.bobsky.smartkey.R;
-import cn.bobsky.smartkey.service.MyAS;
-import android.accessibilityservice.AccessibilityService;
+import cn.bobsky.smartkey.utils.TakeActionUtils;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
-import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +21,7 @@ public class KeyWindowView extends LinearLayout implements
 	public KeyWindowView(Context context) {
 		super(context);
 		mContext = context;
+		mTakeActionUtils = new TakeActionUtils(context);
 		LayoutInflater.from(context).inflate(R.layout.view_smart_key, this);
 
 		windowManager = (WindowManager) context
@@ -34,6 +33,7 @@ public class KeyWindowView extends LinearLayout implements
 	}
 
 	private Context mContext;
+	private TakeActionUtils mTakeActionUtils;
 
 	// 记录小悬浮窗的宽度,高度
 	public static int viewWidth;
@@ -46,10 +46,11 @@ public class KeyWindowView extends LinearLayout implements
 	private WindowManager.LayoutParams mParams;
 
 	private static final long CLICK_SPACING_TIME = 300;
-	private static final long LONG_PRESS_TIME = 600;
-	private static final long DRAG_TIME = 1000;
+	private static final long LONG_PRESS_TIME = 700;
+	private static final long DRAG_TIME = 900;
 
 	int currentState = 0;
+	float rangfloat = 100;
 
 	private static final int STATE_ONCE_CLICK = 1;
 	private static final int STATE_LONG_CLICK = 2;
@@ -70,24 +71,38 @@ public class KeyWindowView extends LinearLayout implements
 	// 点击次数
 	private int mClickCount = 0;
 	// 当前点击时间
-	private long mCurrentClickTime;
+	private long mCurrentClickTime = 0;
 
 	private Handler mBaseHandler = new Handler();
 	// 长按线程
 	private LongPressedThread mLongPressedThread;
 	// 点击等待线程
 	private ClickPressedThread mPrevClickThread;
+	private SwipeThread mSwipeThread;
+	private DragingOnThread mDragingOnThread;
+
+	private boolean isDragging = false;
+	private boolean isSwiping = false;
+
+	// private boolean isDragingMove
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-
+		// Log.i("testData", "event---" + event);
 		// 获取相对屏幕的坐标，即以屏幕左上角为原点
 		xCurrentInScreen = (int) event.getRawX();
 		yCurrentInScreen = (int) event.getRawY() - getStatusBarHeight();
-		;
+
+		long time = Calendar.getInstance().getTimeInMillis()
+				- mCurrentClickTime;
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			
+			//mTakeActionUtils.performClickDownVibrateAction();
+			mTakeActionUtils.performClickDownSoundAction();
+			isDragging = false;
+			isSwiping = false;
 			// 手指按下时记录必要数据,纵坐标的值都需要减去状态栏高度
 			xInView = event.getX();
 			yInView = event.getY();
@@ -97,43 +112,58 @@ public class KeyWindowView extends LinearLayout implements
 			mCurrentClickTime = Calendar.getInstance().getTimeInMillis();
 			// 点击次数加1
 			mClickCount++;
+			Log.i("testData", "已点击次数--" + mClickCount);
+
 			// 取消上一次点击的线程
 			if (mPrevClickThread != null) {
 				mBaseHandler.removeCallbacks(mPrevClickThread);
 			}
-			// 按下的时候触发延迟500秒执行的的长按时间。
+			mDragingOnThread = new DragingOnThread();
+			mBaseHandler.postDelayed(mDragingOnThread, DRAG_TIME);
 
-			//mBaseHandler.postDelayed(mLongPressedThread, LONG_PRESS_TIME);
 			break;
 		case MotionEvent.ACTION_MOVE:
-			xCurrentInScreen = event.getRawX();
-			yCurrentInScreen = event.getRawY() - getStatusBarHeight();
+
 			if (this.isMoved()) {
-				mClickCount = 0; // 只要移动了 就没有点击事件了
+				if (isDragging == false) {
+					// swip
+					isSwiping = true;
+					if (mDragingOnThread != null) {
+						mBaseHandler.removeCallbacks(mDragingOnThread);
+					}
+
+					mSwipeThread = new SwipeThread();
+					mBaseHandler.post(mSwipeThread);
+				}
+
 			}
-			if ((Calendar.getInstance().getTimeInMillis() - mCurrentClickTime) >= DRAG_TIME) {
-				// 手指移动的时候更新小悬浮窗的位置			
+			if (isSwiping == false && isDragging == true) {
+				// // 手指移动的时候更新小悬浮窗的位置
 				updateViewPosition();
 			}
 
 			break;
 		case MotionEvent.ACTION_UP:
+			isDragging = false;
+			isSwiping = false;
 			if (!this.isMoved()) {
-				long time = Calendar.getInstance().getTimeInMillis()
-						- mCurrentClickTime;
-				// 如果按住的时间超过了长按时间，那么其实长按事件已经出发生了,这个时候把数据清零
-				if (time <= LONG_PRESS_TIME) {
-					// 取消注册的长按事件
-					//mBaseHandler.removeCallbacks(mLongPressedThread);
+				if (time <= CLICK_SPACING_TIME) {
+					// 从新建立一个点击线程，延迟CLICK_SPACING_TIME执行
 					mPrevClickThread = new ClickPressedThread();
 					mBaseHandler.postDelayed(mPrevClickThread,
-							CLICK_SPACING_TIME);
-				} else if (time >= LONG_PRESS_TIME && time <= DRAG_TIME) {
+							(CLICK_SPACING_TIME - time));
+					// if (mDragingOnThread != null) {
+					// mBaseHandler.removeCallbacks(mDragingOnThread);
+					// }
+				} else if (time > CLICK_SPACING_TIME && time <= LONG_PRESS_TIME) {
 					mLongPressedThread = new LongPressedThread();
-					mBaseHandler.post(mLongPressedThread);
+					mBaseHandler.postDelayed(mLongPressedThread,
+							LONG_PRESS_TIME);
+				}
+				if (mDragingOnThread != null) {
+					mBaseHandler.removeCallbacks(mDragingOnThread);
 				}
 			}
-			
 
 			break;
 		default:
@@ -155,16 +185,53 @@ public class KeyWindowView extends LinearLayout implements
 				&& Math.abs(yDownInScreen - yCurrentInScreen) <= 5) {
 			return false;
 		} else {
+
 			return true;
+		}
+	}
+
+	public class SwipeThread implements Runnable {
+
+		@Override
+		public void run() {
+			mClickCount = 0;
+			float x = xDownInScreen - xCurrentInScreen;
+			float y = yDownInScreen - yCurrentInScreen;
+			if (Math.abs(x) < Math.abs(y)) {
+				if (y < 0) {
+					mTakeActionUtils.performSwipDownAction();
+				} else {
+					mTakeActionUtils.performSwipUpAction();
+				}
+			} else {
+				if (x < 0) {
+					mTakeActionUtils.performSwipRightAction();
+				} else {
+					mTakeActionUtils.performSwipLeftAction();
+				}
+			}
+
+		}
+
+	}
+
+	public class DragingOnThread implements Runnable {
+		@Override
+		public void run() {
+			isDragging = true;
+			if (isSwiping == false) {
+				mTakeActionUtils.performVibrateAction();
+			}
+			mClickCount = 0;
 		}
 	}
 
 	public class LongPressedThread implements Runnable {
 		@Override
 		public void run() {
-			Toast.makeText(mContext, "long press onClicked--" + mClickCount + "--times!",
-					Toast.LENGTH_SHORT).show();
+
 			// 这里处理长按事件
+			mTakeActionUtils.performLongClickAction(mClickCount);
 			mClickCount = 0;
 		}
 	}
@@ -172,28 +239,7 @@ public class KeyWindowView extends LinearLayout implements
 	public class ClickPressedThread implements Runnable {
 		@Override
 		public void run() {
-			Toast.makeText(mContext, "onClick--" + mClickCount + "--times!",
-					Toast.LENGTH_SHORT).show();
-			// 这里处理连续点击事件 mClickCount 为连续点击的次数
-			switch (mClickCount) {
-			case 1:
-//				MyAccessibilityService.getSharedInstance()
-//				.performGlobalAction(
-//						AccessibilityService.GLOBAL_ACTION_BACK);
-				
-				
-				if (MyAS.getSharedInstance() != null) {
-					MyAS.getSharedInstance()
-							.performGlobalAction(
-									AccessibilityService.GLOBAL_ACTION_BACK);
-				} else {
-					Intent sSettingsIntent = new Intent(
-							Settings.ACTION_ACCESSIBILITY_SETTINGS);
-					sSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					mContext.startActivity(sSettingsIntent);
-				}
-				break;
-			}
+			mTakeActionUtils.performClickAction(mClickCount);
 			mClickCount = 0;
 		}
 	}
