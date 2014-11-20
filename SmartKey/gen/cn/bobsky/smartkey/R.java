@@ -16,6 +16,10 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int department=0x7f0e0000;
+        public static final int department_value=0x7f0e0001;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -858,25 +862,26 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f080002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f090012;
+        public static final int abc_search_url_text_holo=0x7f090013;
         public static final int abc_search_url_text_normal=0x7f090000;
         public static final int abc_search_url_text_pressed=0x7f090002;
         public static final int abc_search_url_text_selected=0x7f090001;
-        public static final int black=0x7f090008;
+        public static final int black=0x7f090009;
         public static final int bright_blue=0x7f090007;
-        public static final int color_bg_fragment=0x7f09000f;
-        public static final int color_border_fragment=0x7f090010;
-        public static final int color_border_item=0x7f090011;
-        public static final int color_transparent=0x7f090009;
-        public static final int corlor_action_bar=0x7f09000d;
-        public static final int corlor_action_bar_tansparent=0x7f09000e;
-        public static final int grey=0x7f090003;
+        public static final int color_bg_fragment=0x7f090010;
+        public static final int color_border_fragment=0x7f090011;
+        public static final int color_border_item=0x7f090012;
+        public static final int color_transparent=0x7f09000a;
+        public static final int corlor_action_bar=0x7f09000e;
+        public static final int corlor_action_bar_tansparent=0x7f09000f;
         public static final int light_blue=0x7f090004;
+        public static final int light_more_blue=0x7f090003;
         public static final int main_blue=0x7f090006;
+        public static final int text_gray=0x7f090008;
         public static final int transparent=0x7f090005;
-        public static final int white=0x7f09000a;
-        public static final int white_transparent=0x7f09000b;
-        public static final int white_transparent_more=0x7f09000c;
+        public static final int white=0x7f09000b;
+        public static final int white_transparent=0x7f09000c;
+        public static final int white_transparent_more=0x7f09000d;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1098,26 +1103,19 @@ containing a value of this type.
         public static final int bg_activity=0x7f02005a;
         public static final int bg_float_window=0x7f02005b;
         public static final int bg_item=0x7f02005c;
-        public static final int ic_back=0x7f02005d;
-        public static final int ic_launcher=0x7f02005e;
-        public static final int mz_ic_sb_back=0x7f02005f;
-        public static final int mz_ic_sb_more=0x7f020060;
-        public static final int mz_smartbar_background=0x7f020061;
-        public static final int mz_titlebar_background=0x7f020062;
-        public static final int smart_key_bg=0x7f020063;
+        public static final int bg_item_container=0x7f02005d;
+        public static final int divider_horizontal_grey_fade=0x7f02005e;
+        public static final int divider_vertical_grey_fade=0x7f02005f;
+        public static final int ic_back=0x7f020060;
+        public static final int ic_launcher=0x7f020061;
+        public static final int item_stop=0x7f020062;
+        public static final int mz_ic_sb_back=0x7f020063;
+        public static final int mz_ic_sb_more=0x7f020064;
+        public static final int mz_smartbar_background=0x7f020065;
+        public static final int mz_titlebar_background=0x7f020066;
+        public static final int smart_key_bg=0x7f020067;
     }
     public static final class id {
-        public static final int ImageView01=0x7f070044;
-        public static final int ImageView02=0x7f070041;
-        public static final int LinearLayout01=0x7f070043;
-        public static final int LinearLayout02=0x7f070046;
-        public static final int LinearLayout03=0x7f07003d;
-        public static final int LinearLayout04=0x7f070040;
-        public static final int Switch03=0x7f07003e;
-        public static final int TextView01=0x7f070045;
-        public static final int TextView02=0x7f070048;
-        public static final int TextView03=0x7f07003f;
-        public static final int TextView04=0x7f070042;
         public static final int action_bar=0x7f07001c;
         public static final int action_bar_activity_content=0x7f070015;
         public static final int action_bar_container=0x7f07001b;
@@ -1129,7 +1127,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070016;
         public static final int action_menu_presenter=0x7f070017;
         public static final int action_mode_close_button=0x7f070024;
-        public static final int action_settings=0x7f07004a;
+        public static final int action_settings=0x7f070048;
         public static final int activity_chooser_view_content=0x7f070025;
         public static final int always=0x7f07000b;
         public static final int beginning=0x7f070011;
@@ -1149,7 +1147,16 @@ containing a value of this type.
         public static final int icon=0x7f07002a;
         public static final int ifRoom=0x7f07000a;
         public static final int image=0x7f070027;
-        public static final int imageView1=0x7f070047;
+        public static final int itemContainerView1=0x7f07003d;
+        public static final int item_container=0x7f07003f;
+        public static final int item_container_title=0x7f07003e;
+        public static final int item_image=0x7f070043;
+        public static final int item_left=0x7f070040;
+        public static final int item_right=0x7f070042;
+        public static final int item_switch=0x7f070041;
+        public static final int item_title=0x7f070044;
+        public static final int key_window_container=0x7f070046;
+        public static final int key_window_imageView=0x7f070047;
         public static final int listMode=0x7f070001;
         public static final int list_item=0x7f070029;
         public static final int middle=0x7f070012;
@@ -1173,7 +1180,7 @@ containing a value of this type.
         public static final int showCustom=0x7f070007;
         public static final int showHome=0x7f070004;
         public static final int showTitle=0x7f070006;
-        public static final int smart_key_layout=0x7f070049;
+        public static final int smart_key_layout=0x7f070045;
         public static final int split_action_bar=0x7f07001e;
         public static final int submit_area=0x7f070039;
         public static final int tabMode=0x7f070002;
@@ -1235,11 +1242,13 @@ containing a value of this type.
         public static final int abc_simple_decor=0x7f030017;
         public static final int activity_main=0x7f030018;
         public static final int fragment_main=0x7f030019;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
-        public static final int view_smart_key=0x7f03001b;
+        public static final int item_container_layout=0x7f03001a;
+        public static final int item_switch=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static final int view_smart_key=0x7f03001d;
     }
     public static final class menu {
-        public static final int main=0x7f0e0000;
+        public static final int main=0x7f0f0000;
     }
     public static final class raw {
         public static final int button_sound=0x7f060000;
@@ -1521,6 +1530,7 @@ containing a value of this type.
     }
     public static final class xml {
         public static final int as_config=0x7f050000;
+        public static final int preferences=0x7f050001;
     }
     public static final class styleable {
         /**  ============================================ 

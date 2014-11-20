@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="grey">#87CEFA</color>
+    <color name="light_more_blue">#87CEFA</color>
     <color name="light_blue">#63B8FF</color>
     <color name="transparent">#00ffffff</color>
     <color name="main_blue">#36b9ea</color>
     <color name="bright_blue">#11b2fa</color>
+    <color name="text_gray">#404040</color>
 
      <color name="black">#000000</color>
     <item name="color_transparent" type="color">#00000000</item>

@@ -13,8 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEventSource;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class KeyWindowView extends LinearLayout implements
 		AccessibilityEventSource {
@@ -30,9 +30,12 @@ public class KeyWindowView extends LinearLayout implements
 		View view = findViewById(R.id.smart_key_layout);
 		viewWidth = view.getLayoutParams().width;
 		viewHeight = view.getLayoutParams().height;
+
+		mImageView = (ImageView) this.findViewById(R.id.key_window_imageView);
 	}
 
 	private Context mContext;
+	ImageView mImageView;
 	private TakeActionUtils mTakeActionUtils;
 
 	// 记录小悬浮窗的宽度,高度
@@ -98,9 +101,17 @@ public class KeyWindowView extends LinearLayout implements
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			
-			//mTakeActionUtils.performClickDownVibrateAction();
+
+			// mTakeActionUtils.performClickDownVibrateAction();
 			mTakeActionUtils.performClickDownSoundAction();
+			// mTakeActionUtils.performScaleAnimation(mImageView,TakeActionUtils.TYPE_SCALE);
+
+			// Animation scaleAnimation = new ScaleAnimation(0.1f, 1.0f, 0.1f,
+			// 1.0f);
+			// // 设置动画时间
+			// scaleAnimation.setDuration(2000);
+			// this.startAnimation(scaleAnimation);
+
 			isDragging = false;
 			isSwiping = false;
 			// 手指按下时记录必要数据,纵坐标的值都需要减去状态栏高度
@@ -199,14 +210,23 @@ public class KeyWindowView extends LinearLayout implements
 			float y = yDownInScreen - yCurrentInScreen;
 			if (Math.abs(x) < Math.abs(y)) {
 				if (y < 0) {
+					mTakeActionUtils.performScaleAnimation(mImageView,
+							TakeActionUtils.TYPE_ROTATE_DOWN);
 					mTakeActionUtils.performSwipDownAction();
+
 				} else {
+					mTakeActionUtils.performScaleAnimation(mImageView,
+							TakeActionUtils.TYPE_ROTATE_UP);
 					mTakeActionUtils.performSwipUpAction();
 				}
 			} else {
 				if (x < 0) {
+					mTakeActionUtils.performScaleAnimation(mImageView,
+							TakeActionUtils.TYPE_ROTATE_RIGHT);
 					mTakeActionUtils.performSwipRightAction();
 				} else {
+					mTakeActionUtils.performScaleAnimation(mImageView,
+							TakeActionUtils.TYPE_ROTATE_LEFT);
 					mTakeActionUtils.performSwipLeftAction();
 				}
 			}
@@ -231,6 +251,8 @@ public class KeyWindowView extends LinearLayout implements
 		public void run() {
 
 			// 这里处理长按事件
+			mTakeActionUtils.performScaleAnimation(mImageView,
+					TakeActionUtils.TYPE_SCALE);
 			mTakeActionUtils.performLongClickAction(mClickCount);
 			mClickCount = 0;
 		}
@@ -239,6 +261,8 @@ public class KeyWindowView extends LinearLayout implements
 	public class ClickPressedThread implements Runnable {
 		@Override
 		public void run() {
+			mTakeActionUtils.performScaleAnimation(mImageView,
+					TakeActionUtils.TYPE_SCALE);
 			mTakeActionUtils.performClickAction(mClickCount);
 			mClickCount = 0;
 		}
